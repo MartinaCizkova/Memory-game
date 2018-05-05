@@ -6,22 +6,39 @@ function createCards() {
     const newLi = document.createElement('li');
     newLi.classList.add('card');
     newLi.classList.add(cardList[i])
+
     const newI1 = document.createElement('div');
-    newI1.classList.add('fa');
-    newI1.classList.add('front-' + cardList[i]);
+    newI1.classList.add('back');
+    newI1.classList.add('back-' + cardList[i]);
+
     const newI2 = document.createElement('div');
-    newI2.classList.add('fa');
-    newI2.classList.add('back-' + cardList[i]);
-    newLi.appendChild(newI1);
+    newI2.classList.add('front');
+    newI2.classList.add('front-' + cardList[i]);
+
+    const backImage = document.createElement('img');
+    backImage.src = "img/back.jpg";
+
+    const frontImage = document.createElement('img');
+    frontImage.src = "img/" +cardList[i]+ ".jpg";
+
+    newI1.appendChild(backImage);
+    newI2.appendChild(frontImage);
     newLi.appendChild(newI2);
+    newLi.appendChild(newI1);
     elem.appendChild(newLi);
   }
 }
 
 createCards();
 
+const allCards= document.getElementsByClassName('card');
 
-
+for (var i = 0; i < allCards.length; i++) {
+    let clickedCard = allCards[i];
+    clickedCard.addEventListener('click', function() {
+    clickedCard.classList.add('open');
+});
+}
 
 
 /*
