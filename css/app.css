@@ -89,8 +89,7 @@ h1 {
 
 .deck .card.match {
     cursor: default;
-    background: #02ccba;
-    font-size: 33px;
+    transform: rotateY(180deg);
 }
 
 /*

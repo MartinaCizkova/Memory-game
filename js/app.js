@@ -1,6 +1,8 @@
 let cardList = ['android', 'android', 'explorer', 'explorer', 'firefox', 'firefox', 'chrome', 'chrome', 'netscape', 'netscape', 'opera', 'opera', 'safari', 'safari', 'shiira', 'shiira'];
 const elem = document.getElementById('decking');
 
+/* Creates all cards on the deck. New front and back div elements are created. Image elements
+are created for both the front and back divs.  */
 function createCards() {
   for (let i = 0; i < cardList.length; i++) {
     const newLi = document.createElement('li');
@@ -29,28 +31,8 @@ function createCards() {
   }
 }
 
-createCards();
-
-const allCards= document.getElementsByClassName('card');
-
-for (var i = 0; i < allCards.length; i++) {
-    let clickedCard = allCards[i];
-    clickedCard.addEventListener('click', function() {
-    clickedCard.classList.add('open');
-});
-}
-
-
-/*
- * Create a list that holds all of your cards
- *
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
-*/
-
-// Shuffle function from http://stackoverflow.com/a/2450976
+/* Shuffle function from http://stackoverflow.com/a/2450976
+ Shuffle cards before showing them on the deck.*/
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -64,6 +46,125 @@ function shuffle(array) {
 
     return array;
 }
+
+shuffle(cardList);
+createCards();
+
+
+let openedCards = [];
+let matchedCards = [];
+
+function manipulatingCards() {
+    const allCards= document.getElementsByClassName('card');
+    for (var i = 0; i < allCards.length; i++) {
+        let clickedCard = allCards[i];
+        clickedCard.addEventListener('click', function(evt) {
+            clickedCard.classList.add('open');
+            openedCards.push(evt.target);
+            if ((openedCards.length === 2) && (openedCards[0].parentNode.parentNode !== openedCards[1].parentNode.parentNode)) {
+                noMatch();
+            } else if ((openedCards.length === 2) && (openedCards[0].parentNode.parentNode == openedCards[1].parentNode.parentNode)) {
+                match();
+            }
+        });
+    }
+}
+
+manipulatingCards();
+
+    function noMatch() {
+        setTimeout( function() {
+            openedCards[0].parentNode.parentNode.classList.remove('open');
+            openedCards[1].parentNode.parentNode.classList.remove('open');
+            openedCards = [];
+        }, 800);
+    }
+
+    function match() {
+        openedCards[0].parentNode.parentNode.classList.add('match');
+        openedCards[1].parentNode.parentNode.classList.add('match');
+        matchedCards.push(openedCards);
+        openedCards = [];
+    }
+
+
+
+
+/*
+let openCards = document.getElementsByClassName('open');
+if (openCards.length === 0) {
+    const myPara = document.createElement('p');
+    const textOfPara = document.createTextNode('2 cards open');
+    myPara.appendChild(textOfPara);
+    document.body.appendChild(myPara);
+}
+
+/* Matching
+
+/*   let openCards = [],
+    openCards.push(clickedCard);
+    if (openCards.length === 2) {
+        if (openCards[0] !== openCards[1]) {
+            clickedCard.classList.remove('open');
+        }
+    }
+
+
+
+
+let listOfOpen = []; //temporary collector of open cards
+let matchCollector = []; //temporary collector of matching pairs of cards
+
+function compare() {
+  if (listOfOpen.length === 2) {
+    if (listOfOpen[0].innerHTML !== listOfOpen[1].innerHTML) {
+      for (card of cardList) {
+        card.removeEventListener('click', playGame);
+      }
+      setTimeout(mismatchedCards, 400);
+      setTimeout(openCards, 550);
+    } else if (listOfOpen[0].innerHTML === listOfOpen[1].innerHTML) {
+      matchedCards();
+    }
+  }
+}
+
+let openCards = [],
+openCards.push(clickedCard);
+if (openCards.length === 2) {
+    if (openCards[0] === openCards)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+* set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
+
+
+
+
+
 
 
 /*
@@ -117,15 +218,6 @@ const myArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 console.log(shuffle(myArray));
 
 
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-
 var memory_array = ['A','A','B','B','C','C','D','D','E','E','F','F','G','G','H','H','I','I','J','J','K','K','L','L'];
  var memory_values = [];
  var memory_tile_ids = [];
@@ -140,10 +232,6 @@ var memory_array = ['A','A','B','B','C','C','D','D','E','E','F','F','G','G','H',
  });
  document.getElementById('memory_board').innerHTML = output;
 }
-
-
-
-
 
 var options = ['Option 1','Option 2'];
 
@@ -178,13 +266,6 @@ function makeCards() {
 }
 
 makeCards();
-
-
-
-
-
-
-
 
 var options = [
         set0 = ['Option 1','Option 2'],
